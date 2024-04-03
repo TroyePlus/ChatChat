@@ -83,7 +83,8 @@ int main(int argc, char **argv)
         exit(-1);
     }
 
-    // 初始化读写线程通信用的信号量
+    // 初始化读写线程通信用的信号量（资源计数，post:资源+1，wait:资源-1）
+    // (信号量地址，线程间or进程间通信，初始资源计数值)
     sem_init(&rwsem, 0, 0);
 
     // 连接服务器成功，启动接收子线程（该线程只启动一次）
@@ -167,7 +168,7 @@ int main(int argc, char **argv)
         break;
         case 3: // quit业务
             close(clientfd);
-            sem_destroy(&rwsem);
+            sem_destroy(&rwsem); // 释放信号量资源
             exit(0);
         default:
             cerr << "invalid input!" << endl;
@@ -210,6 +211,7 @@ void doLoginResponse(json &responsejs)
         if (responsejs.contains("friends"))
         {
             // 初始化
+            // g_currentUserFriendList和g_currentUserGroupList只在子线程中使用，不涉及线程安全问题
             g_currentUserFriendList.clear();
 
             vector<string> vec = responsejs["friends"];
