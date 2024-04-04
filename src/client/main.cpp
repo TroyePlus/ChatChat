@@ -212,7 +212,7 @@ void doLoginResponse(json &responsejs)
         {
             // 初始化
             // g_currentUserFriendList和g_currentUserGroupList只在子线程中使用，不涉及线程安全问题
-            g_currentUserFriendList.clear();
+            // g_currentUserFriendList.clear(); // 防止登出用户的信息会“遗留”给紧接着注册的用户，改为登出时清空
 
             vector<string> vec = responsejs["friends"];
             for (string &str : vec)
@@ -230,7 +230,7 @@ void doLoginResponse(json &responsejs)
         if (responsejs.contains("groups"))
         {
             // 初始化
-            g_currentUserGroupList.clear();
+            // g_currentUserGroupList.clear();
 
             vector<string> vec1 = responsejs["groups"];
             for (string &groupstr : vec1)
@@ -567,6 +567,8 @@ void loginout(int clientfd, string)
     }
     else
     {
+        g_currentUserFriendList.clear();
+        g_currentUserGroupList.clear();
         isMainMenuRunning = false;
     }
 }
