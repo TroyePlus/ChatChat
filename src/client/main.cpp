@@ -436,7 +436,7 @@ void help(int, string)
     {
         cout << p.first << " : " << p.second << endl;
     }
-    cout << endl;
+    cout << "======================================================" << endl;
 }
 // "addfriend" command handler
 void addfriend(int clientfd, string str)
