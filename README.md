@@ -94,6 +94,6 @@ cd ./bin
 
 ## TODO
 
-1. 实现数据库连接池，提高数据库访问性能和效率
+1. ~实现数据库连接池，提高数据库访问性能和效率~
 2. 使用 [Protobuf](https://github.com/protocolbuffers/protobuf) 序列化格式，提高数据传输效率
 
